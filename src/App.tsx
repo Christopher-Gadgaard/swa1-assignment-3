@@ -1,9 +1,11 @@
-import './App.css';
+import "./App.css";
+import GameGrid from "./components/grid";
+import Game from "./pages/game";
 
 function App() {
   return (
     <div className="App">
-      
+      <Game />
     </div>
   );
 }
