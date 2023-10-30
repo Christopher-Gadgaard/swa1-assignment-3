@@ -1,6 +1,6 @@
 import "./App.css";
 import GameGrid from "./components/grid";
-import Game from "./pages/game";
+import Game from "./pages/game/game";
 
 function App() {
   return (
