@@ -4,7 +4,7 @@ import Game from "./pages/game/game";
 import AccountPage from "./pages/account/account";
 import ScorebardPage from "./pages/scoreboard/scoreboard";
 
-function App() {
+const App: React.FC = () => {
   return (
     <Router>
       <Routes>
