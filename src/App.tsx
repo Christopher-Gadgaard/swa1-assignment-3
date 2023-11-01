@@ -1,18 +1,18 @@
-//App.tsx
-import React from 'react';
-import './App.css';
-import LoginForm from './components/LoginForm/LoginForm';  
-import { Provider } from 'react-redux';
-import store from './store';
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import "./App.css";
+import Game from "./pages/game/game";
+import AccountPage from "./pages/account/account";
+import ScorebardPage from "./pages/scoreboard/scoreboard";
 
 const App: React.FC = () => {
   return (
-    <Provider store={store}>
-      <div className="App">
-        <LoginForm />
-        {/* Other components */}
-      </div>
-    </Provider>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Game />} />
+        <Route path="/account" element={<AccountPage />} />
+        <Route path="/scoreboard" element={<ScorebardPage />} />
+      </Routes>
+    </Router>
   );
 }
 
