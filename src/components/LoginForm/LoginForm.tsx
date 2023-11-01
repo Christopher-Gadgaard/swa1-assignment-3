@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { createUser, loginUser } from "../../thunks/userThunks";
 import { AppDispatch } from "../../store";
 import { RootState } from "../../reducers";
+import { useNavigate } from "react-router-dom";
+
 
 import Card from "@mui/material/Card";
 import {
@@ -22,7 +24,6 @@ const LoginForm: React.FC = () => {
   const [validationError, setValidationError] = useState("");
   const dispatch: AppDispatch = useDispatch();
   const [value, setValue] = React.useState("login");
-
   const isLoggedIn = useSelector((state: RootState) => state.user.isLoggedIn);
   const error = useSelector((state: RootState) => state.user.error);
 
@@ -49,6 +50,7 @@ const LoginForm: React.FC = () => {
     e.preventDefault();
     if (validateForm()) {
       dispatch(createUser(username, password));
+      dispatch(loginUser(username, password));
     }
   }
 

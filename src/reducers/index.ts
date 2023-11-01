@@ -17,7 +17,7 @@ import {
 // Initial state for the user reducer
 const initialState = {
   isLoggedIn: false,
-  isCreatingUser: false, // New state to track user creation status
+  isCreatingUser: false, 
   userData: null,
   token: null,
   userId: null,
