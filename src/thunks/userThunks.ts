@@ -33,7 +33,7 @@ export const loginUser = (username: string, password: string) => {
 export const logoutUser = (token: string) => {
     return async (dispatch: Dispatch) => {
         try {
-            const response = await fetch(`/logout?token=${token}`, {
+            const response = await fetch(`http://localhost:9090/logout?token=${token}`, {
                 method: 'POST'
             });
 
