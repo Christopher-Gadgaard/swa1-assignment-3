@@ -1,3 +1,4 @@
+//userActions.ts
 import {
     LOGIN_REQUEST,
     LOGIN_SUCCESS,
@@ -6,7 +7,10 @@ import {
     CREATE_USER_REQUEST,
     CREATE_USER_SUCCESS,
     CREATE_USER_FAILURE,
-    SET_USER_TOKEN
+    SET_USER_TOKEN,
+    UPDATE_PROFILE_REQUEST,
+    UPDATE_PROFILE_SUCCESS,
+    UPDATE_PROFILE_FAILURE
 } from './userActionTypes';
 
 export const loginRequest = () => ({
@@ -46,3 +50,16 @@ export const setUserToken = (token: string, userId: number) => ({
     payload: { token, userId }
 });
 
+export const updateProfileRequest = () => ({
+    type: UPDATE_PROFILE_REQUEST
+});
+
+export const updateProfileSuccess = (updatedData: any) => ({
+    type: UPDATE_PROFILE_SUCCESS,
+    payload: updatedData
+});
+
+export const updateProfileFailure = (error: string) => ({
+    type: UPDATE_PROFILE_FAILURE,
+    payload: error
+});

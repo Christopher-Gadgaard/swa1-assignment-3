@@ -1,0 +1,25 @@
+.loginCard{
+    height: 600px;
+    display: flex;
+    flex-direction: column;
+    width: 500px;
+    align-items: center;
+    justify-content: center;   
+    border: 1px solid gray;
+    border-radius: 7px;
+   
+}
+.textField{
+    margin: 10px !important;
+    width: 80%;
+    background-color: white;
+    border-radius: 7px;
+}
+.loginButton{
+    margin-bottom: 100px !important;
+}
+.loginContainer{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}

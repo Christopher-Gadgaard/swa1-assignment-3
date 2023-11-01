@@ -1,12 +1,18 @@
+//App.tsx
 import React from 'react';
 import './App.css';
-import LoginForm from './components/LoginForm';  // Ensure the path is correct based on your folder structure
+import LoginForm from './components/LoginForm/LoginForm';  
+import { Provider } from 'react-redux';
+import store from './store';
 
-function App() {
+const App: React.FC = () => {
   return (
-    <div className="App">
-      <LoginForm />
-    </div>
+    <Provider store={store}>
+      <div className="App">
+        <LoginForm />
+        {/* Other components */}
+      </div>
+    </Provider>
   );
 }
 
