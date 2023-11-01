@@ -1,4 +1,4 @@
-import GameGrid from "../../components/grid";
+import GameGrid from "../../components/grid/grid";
 import Scoreboard from "../../components/scoreboard/scoreboard";
 import Topbar from "../../components/topbar/topbar";
 import "./styles.css";
