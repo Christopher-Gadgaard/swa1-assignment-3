@@ -1,12 +1,16 @@
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./App.css";
-import GameGrid from "./components/grid";
 import Game from "./pages/game/game";
+import AccountPage from "./pages/account/account";
 
 function App() {
   return (
-    <div className="App">
-      <Game />
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Game />} />
+        <Route path="/account" element={<AccountPage />} />
+      </Routes>
+    </Router>
   );
 }
 
