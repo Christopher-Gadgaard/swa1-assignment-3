@@ -1,0 +1,33 @@
+.login-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; /* Center content vertically */
+    min-height: 100vh;
+    background: url('../../../public/images/SpaceBackground.png') no-repeat center center fixed;
+    background-size: cover;
+    padding-top: 0; /* Reduced padding */
+    padding-bottom: 0; /* Reduced padding */
+}
+
+.logo {
+    flex: 0 0 auto; /* Do not grow, do not shrink, be automatically sized */
+    margin-top: 1vh; /* Further reduced from 2vh */
+    margin-bottom: 10px; /* Eliminated bottom margin */
+    height: 250px;
+    width: 250px;
+}
+
+.form-container {
+    flex-grow: 1; /* takes up available space */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* Aligns content to the top */
+    min-height: 400px; /* or any other height that can accommodate your largest form */
+    margin-top: -3vh; /* Increased negative margin to pull the form even closer */
+}
+
+img {
+    width: 100%;
+    height: auto;
+}

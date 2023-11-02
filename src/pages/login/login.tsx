@@ -1,0 +1,17 @@
+import React from 'react';
+import LoginForm from "../../components/LoginForm/LoginForm";
+import "./styles.css";
+import gemQuestLogo from "./GemQuest.png";
+
+const LoginPage: React.FC = () => {
+  return (
+    <div className="login-page">
+        <div className="logo"> <img src={gemQuestLogo} alt='Logo' />  </div>
+        <div className="form-container">
+          <LoginForm />
+        </div>
+    </div>
+  );
+};
+
+export default LoginPage;

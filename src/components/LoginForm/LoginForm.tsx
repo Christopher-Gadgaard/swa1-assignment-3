@@ -1,11 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, ChangeEvent, FormEvent } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createUser, loginUser } from "../../thunks/userThunks";
 import { AppDispatch } from "../../store";
 import { RootState } from "../../reducers";
-import { useNavigate } from "react-router-dom";
-
-
 import Card from "@mui/material/Card";
 import {
   Button,
@@ -18,129 +15,129 @@ import {
 import "./style.css";
 
 const LoginForm: React.FC = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [validationError, setValidationError] = useState("");
+  const [formData, setFormData] = useState({
+    username: "",
+    password: "",
+    confirmPassword: "",
+    validationError: "",
+    actionType: "login",
+  });
+
+  const { username, password, confirmPassword, validationError, actionType } =
+    formData;
+
   const dispatch: AppDispatch = useDispatch();
-  const [value, setValue] = React.useState("login");
   const isLoggedIn = useSelector((state: RootState) => state.user.isLoggedIn);
   const error = useSelector((state: RootState) => state.user.error);
 
+  const updateFormData = (data: Partial<typeof formData>) => {
+    setFormData((prevState) => ({ ...prevState, ...data }));
+  };
+
   const validateForm = () => {
     if (!username.trim() || !password.trim()) {
-      setValidationError("Username and password are required.");
+      updateFormData({
+        validationError: "Username and password are required.",
+      });
       return false;
     }
-    if (value === "signup" && password !== confirmPassword) {
-      setValidationError("Passwords do not match.");
+    if (actionType === "signup" && password !== confirmPassword) {
+      updateFormData({ validationError: "Passwords do not match." });
       return false;
     }
     return true;
-  }
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (validateForm()) {
-      dispatch(loginUser(username, password));
-    }
   };
 
-  const handleSignup = (e: React.FormEvent) => {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    if (validateForm()) {
-      dispatch(createUser(username, password));
-      dispatch(loginUser(username, password));
-    }
-  }
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setValue((event.target as HTMLInputElement).value);
+    if (!validateForm()) return;
+
+    if (actionType === "signup") {
+      dispatch(createUser(username, password));
+    }
+
+    dispatch(loginUser(username, password));
+  };
+
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    updateFormData({ [name]: value });
   };
 
   useEffect(() => {
     if (isLoggedIn) {
-      setUsername("");
-      setPassword("");
-      setValidationError("");
+      updateFormData({ username: "", password: "", validationError: "" });
+    } else if (error) {
+      updateFormData({ validationError: error });
     }
-  }, [isLoggedIn]);
-
-  useEffect(() => {
-    if (error) {
-      setValidationError(error);
-    }
-  }, [error]);
+  }, [isLoggedIn, error]);
 
   return (
     <Card className="loginCard">
-      <FormControl>
-        <RadioGroup
-          row
-          aria-labelledby="demo-controlled-radio-buttons-group"
-          name="controlled-radio-buttons-group"
-          value={value}
-          onChange={handleChange}
-        >
-          <FormControlLabel value="login" control={<Radio />} label="Log in" />
-          <FormControlLabel
-            value="signup"
-            control={<Radio />}
-            label="Sign up"
-          />
-        </RadioGroup>
-      </FormControl>
-      {validationError && <div className="error">{validationError}</div>}
-      {value === "signup" ? (
-        <div className="loginContainer">
-          <TextField className="textField"  onChange={(e) => setUsername(e.target.value)} value={username} label="Username"></TextField>
-
+      <div className="welcomeContainer">
+        <h2>{actionType === "login" ? "Welcome, Please login" : "Create your account"}</h2>
+      </div>
+      <div className="loginContainer">
+       <div className="topContainer">
+         <TextField
+          name="username"
+          value={username}
+          onChange={handleInputChange}
+          className="textField"
+          label="Username"
+        />
+       
+        <TextField
+          name="password"
+          type="password"
+          value={password}
+          className="textField"
+          onChange={handleInputChange}
+          label="Password"
+        />
+         {actionType === "signup" && (
           <TextField
-            type="password"
-            onChange={(e) => setPassword(e.target.value)}
-            value={password}
-            className="textField"
-            label="password"
-          ></TextField>
-          <TextField
+            name="confirmPassword"
             type="password"
             value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
+            onChange={handleInputChange}
             className="textField"
-            label="repeat password"
-          ></TextField>
-          <Button
-            className="loginButton"
-            variant="contained"
-            onClick={handleSignup}
-          >
-            Sign Up
-          </Button>
+            label="Repeat Password"
+          />
+        )}
         </div>
-      ) : (
-        <div className="loginContainer">
-          <TextField
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            className="textField"
-            label="Username"
-          ></TextField>
-          <TextField
-            type="password"
-            value={password}
-            className="textField"
-            onChange={(e) => setPassword(e.target.value)}
-            label="password"
-          ></TextField>
+        <div className="bottomContainer">
+          {validationError && <div className="error">{validationError}</div>}
+          <FormControl className="radioGroup">
+            <RadioGroup
+              row
+              aria-labelledby="demo-controlled-radio-buttons-group"
+              name="actionType"
+              value={actionType}
+              onChange={handleInputChange}
+            >
+              <FormControlLabel
+                value="login"
+                control={<Radio />}
+                label="Log in"
+              />
+              <FormControlLabel
+                value="signup"
+                control={<Radio />}
+                label="Sign up"
+              />
+            </RadioGroup>
+          </FormControl>
           <Button
             className="loginButton"
             variant="contained"
             onClick={handleSubmit}
           >
-            Login
+            {actionType === "signup" ? "Sign Up" : "Login"}
           </Button>
         </div>
-      )}
+      </div>
     </Card>
   );
 };

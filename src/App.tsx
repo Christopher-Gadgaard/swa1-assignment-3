@@ -7,7 +7,7 @@ import "./App.css";
 import Game from "./pages/game/game";
 import AccountPage from "./pages/account/account";
 import ScorebardPage from "./pages/scoreboard/scoreboard";
-import LoginForm from "./components/LoginForm/LoginForm";
+import LoginPage from "./pages/login/login";
 
 const App: React.FC = () => {
   const isLoggedIn = useSelector((state: RootState) => state.user.isLoggedIn);
@@ -16,7 +16,7 @@ const App: React.FC = () => {
     <Provider store={store}>
       <Router>
         <Routes>
-          <Route path="/login" element={isLoggedIn ? <Navigate to="/game" replace /> : <LoginForm />} />
+          <Route path="/login" element={isLoggedIn ? <Navigate to="/game" replace /> : <LoginPage />} />
           <Route path="/" element={isLoggedIn ? <Game /> : <Navigate to="/login" replace />} />
           <Route path="/game" element={<Game />} />
           <Route path="/account" element={isLoggedIn ? <AccountPage /> : <Navigate to="/login" replace />} />
