@@ -112,7 +112,7 @@ export function positions<T>(board: Board<T>): Position[] {
   return allPositions;
 }
 
-function areInSameRowOrColumn(pos1: Position, pos2: Position): boolean {
+export function areInSameRowOrColumn(pos1: Position, pos2: Position): boolean {
   return pos1.row === pos2.row || pos1.col === pos2.col;
 }
 

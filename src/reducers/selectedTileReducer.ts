@@ -7,9 +7,6 @@ const initialState = {
   selectedTile: null,
 };
 
-const tileToSwapReducer = (state = initialState, action:any) => {
-    
-}
 
 const selectedTileReducer = (state = initialState, action:any) => {
   switch (action.type) {
