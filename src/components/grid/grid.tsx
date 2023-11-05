@@ -41,7 +41,7 @@ const GameGrid: FunctionComponent<GameGridProps> = (props) => {
                     sx={{
                       cursor: "pointer",
                       backgroundColor: `${
-                        selectedTile &&
+                        selectedTile.selectedTile &&
                         selectedTile.selectedTile.row === rowIndex &&
                         selectedTile.selectedTile.col === cellIndex
                           ? "red"

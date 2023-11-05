@@ -2,13 +2,14 @@
 
 import { SELECT_TILE } from "../actions/boardActionTypes";
 
-
-
-
 // Reducer
 const initialState = {
   selectedTile: null,
 };
+
+const tileToSwapReducer = (state = initialState, action:any) => {
+    
+}
 
 const selectedTileReducer = (state = initialState, action:any) => {
   switch (action.type) {
@@ -21,5 +22,6 @@ const selectedTileReducer = (state = initialState, action:any) => {
       return state;
   }
 };
+
 
 export default selectedTileReducer;
