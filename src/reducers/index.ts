@@ -13,6 +13,7 @@ import {
   UPDATE_PROFILE_SUCCESS,
   UPDATE_PROFILE_FAILURE,
 } from "../actions/userActionTypes";
+import selectedTileReducer from "./selectedTileReducer";
 
 // Initial state for the user reducer
 const initialState = {
@@ -85,6 +86,7 @@ const userReducer = (state = initialState, action: any) => {
 
 const rootReducer = combineReducers({
   user: userReducer,
+  selectedTile: selectedTileReducer,
   // Add other reducers as you create them
 });
 

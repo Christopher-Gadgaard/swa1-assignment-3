@@ -1,0 +1,2 @@
+export const SELECTED_TILE = 'SELECTED_TILE';
+export const SELECT_TILE= 'SELECT_TILE';
