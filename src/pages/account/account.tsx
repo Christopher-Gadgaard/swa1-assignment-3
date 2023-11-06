@@ -1,43 +1,20 @@
-import { Card, TextField, Button } from "@mui/material";
-import Topbar from "../../components/topbar/topbar";
+import React from "react";
 import "./styles.css";
+import gemQuestLogo from "../../images/GemQuest.png";
+import AccountComponent from "../../components/account/AccountComponent";
+import Topbar from "../../components/topbar/topbar";
+
 const AccountPage: React.FC = () => {
   return (
-    <div className="pageContainer">
-      <Topbar />
-      <div className="pageLayout">
-        <div className="updateAccountContainer">
-          <Card className="accountCard">
-            <TextField className="textField" label="name" />
-            <TextField type="email" className="textField" label="email" />
-            <TextField type="password" className="textField" label="password" />
-            <TextField
-              type="password"
-              className="textField"
-              label="repeat password"
-            />
-            <Button
-              className="loginButton"
-              variant="contained"
-              onClick={() => {
-                alert("Account updated");
-              }}
-            >
-              Update
-            </Button>
-            <Button
-              className="loginButton"
-              variant="contained"
-              onClick={() => {
-                alert("Account deleted");
-              }}
-            >
-              Delete Account
-            </Button>
-          </Card>
-        </div>
+    
+    <div className="account-page">
+       <Topbar/>
+      <div className="logo"><img src={gemQuestLogo} alt="Logo" />  </div>
+      <div className="account-container">
+        <AccountComponent />
       </div>
     </div>
   );
 };
+
 export default AccountPage;

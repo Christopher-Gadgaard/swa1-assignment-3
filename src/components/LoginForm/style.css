@@ -31,63 +31,63 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: end;
+  justify-content: flex-end;
   height: 120px;
 }
 
 .textField {
-  width: 100% !important; /* Match the width of the text fields */
-  margin-bottom: 16px !important;/* Increase spacing for visual separation */
+  width: 100% !important; 
+  margin-bottom: 16px !important;
   margin-bottom: 10px !important;
 }
 
 .radioGroup {
-  margin-top: 16px; /* Add space above the radio buttons */
-  justify-content: center; /* Center the radio buttons */
+  margin-top: 16px; 
+  justify-content: center; 
 }
 
 .loginButton {
-  margin-top: 20px; /* Space above the button */
-  padding: 10px 30px; /* Padding for a larger click area */
-  font-weight: bold; /* Make the button text bold */
-  color: white; /* White text for contrast */
-  background-color: #1976d2; /* A pleasant blue that stands out */
-  border: none; /* Remove any default border */
-  cursor: pointer; /* Change cursor to indicate it's clickable */
-  transition: background-color 0.3s; /* Transition for the button to provide feedback on hover */
+  margin-top: 20px !important; 
+  padding: 10px 30px !important; 
+  font-weight: bold !important; 
+  color: white !important; 
+  background-color: #1976d2 !important; 
+  border: none !important; 
+  cursor: pointer !important; 
+  transition: background-color 0.3s !important; 
 }
 
 .loginButton:hover {
-  background-color: #115293; /* Darken button on hover for interaction feedback */
+  background-color: #115293 !important; 
 }
 
 .error {
-  color: #d32f2f; /* Red color for errors to stand out */
-  background-color: #fff3e0; /* Light orange background for highlighting */
-  padding: 8px; /* Padding to create space around the text */
-  margin-top: 10px; /* Space above error message */
-  text-align: center; /* Center the error text */
-  border-radius: 4px; /* Rounded corners for the highlight */
-  width: calc(100% - 16px); /* Adjust width to allow for padding */
+  color: #d32f2f; 
+  background-color: #fff3e0; 
+  padding: 8px; 
+  margin-top: 10px; 
+  text-align: center; 
+  border-radius: 4px; 
+  width: calc(100% - 16px); 
   box-sizing: border-box; 
 }
 
-/* When the radio buttons change to a horizontal layout on larger screens */
+
 @media (min-width: 600px) {
   .radioGroup {
     flex-direction: row;
   }
 }
 
-/* Accessibility Improvements */
+
 .radioGroup .MuiFormControlLabel-root {
-  margin-right: 16px; /* Space between radio buttons */
+  margin-right: 16px; 
 }
 
-/* Improve focus state for better keyboard navigation */
+
 .loginButton:focus,
 .textField:focus,
 .radioGroup .MuiFormControlLabel-root .MuiRadio-root:focus {
-  outline: 3px solid #80bdff; /* Blue outline to match button color */
-  outline-offset: 2px; /* Offset the outline a bit */
+  outline: 3px solid #80bdff; 
+  outline-offset: 2px; 
 }

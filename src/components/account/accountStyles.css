@@ -1,0 +1,59 @@
+.accountCard {
+    width: 420px;
+    margin: 2rem auto;
+    padding: 2rem;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    border-radius: 8px;
+    background: #fff;
+    height: auto; /* Adjust height as per content */
+  }
+  
+  .accountContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .accountContainer h2 {
+    font-family: 'Orbitron', sans-serif;
+    text-align: center;
+    padding-bottom: 10px;
+  }
+  
+  .account-text-field {
+    width: 100%;
+    margin-bottom: 16px;
+  }
+  
+  .account-button {
+    margin-top: 20px !important;
+    padding: 10px 30px !important;
+    font-weight: bold !important;
+    color: white !important;
+    background-color: #1976d2 !important;
+    border: none !important;
+    cursor: pointer !important;
+    transition: background-color 0.3s !important; 
+  }
+  
+  .account-button:hover {
+    background-color: #115293 !important;
+  }
+  
+  .account-error {
+    color: #d32f2f;
+    background-color: #fff3e0;
+    padding: 8px;
+    margin-top: 10px;
+    text-align: center;
+    border-radius: 4px;
+    width: calc(100% - 16px);
+    box-sizing: border-box;
+  }
+  
+  /* Improve focus state for better keyboard navigation */
+  .account-button:focus,
+  .account-text-field:focus {
+    outline: 3px solid #80bdff;
+    outline-offset: 2px;
+  }
