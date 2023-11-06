@@ -1,5 +1,5 @@
 import React from 'react';
-import LoginForm from "../../components/LoginForm/LoginForm";
+import LoginForm from "../../components/loginForm/LoginForm";
 import "./styles.css";
 import gemQuestLogo from "./GemQuest.png";
 
