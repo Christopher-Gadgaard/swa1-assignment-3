@@ -1,4 +1,4 @@
-.account-card {
+.accountCard {
     width: 420px;
     margin: 2rem auto;
     padding: 2rem;
@@ -8,13 +8,13 @@
     height: auto; /* Adjust height as per content */
   }
   
-  .account-page {
+  .accountContainer {
     display: flex;
     flex-direction: column;
     align-items: center;
   }
   
-  .account-page h2 {
+  .accountContainer h2 {
     font-family: 'Orbitron', sans-serif;
     text-align: center;
     padding-bottom: 10px;
