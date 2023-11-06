@@ -10,7 +10,9 @@ import {
     SET_USER_TOKEN,
     UPDATE_PROFILE_REQUEST,
     UPDATE_PROFILE_SUCCESS,
-    UPDATE_PROFILE_FAILURE
+    UPDATE_PROFILE_FAILURE,
+    GET_USER_REQUEST,
+    GET_USER_SUCCESS
 } from './userActionTypes';
 
 export const loginRequest = () => ({
@@ -29,6 +31,20 @@ export const loginFailure = (error: string) => ({
 
 export const logout = () => ({
     type: LOGOUT
+});
+
+export const getUserRequest = () => ({
+    type: GET_USER_REQUEST
+});
+
+export const getUserSuccess = (userData: any) => ({
+    type: GET_USER_SUCCESS,
+    payload: userData
+});
+
+export const getUserFailure = (error: string) => ({
+    type: LOGIN_FAILURE,
+    payload: error
 });
 
 export const createUserRequest = () => ({

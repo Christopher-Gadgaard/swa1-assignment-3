@@ -1,6 +1,7 @@
 //userThunks.ts
 import { Dispatch } from 'redux';
-import { loginRequest, loginSuccess, loginFailure, setUserToken, logout, createUserRequest, createUserSuccess, createUserFailure, updateProfileRequest, updateProfileSuccess, updateProfileFailure } from '../actions/userActions';
+import { loginRequest, loginSuccess, loginFailure, setUserToken, logout, createUserRequest, createUserSuccess, createUserFailure, updateProfileRequest, updateProfileSuccess, updateProfileFailure, getUserRequest, getUserSuccess, getUserFailure } from '../actions/userActions';
+import { get } from 'http';
 
 export const loginUser = (username: string, password: string) => {
     return async (dispatch: Dispatch) => {
@@ -77,29 +78,52 @@ export const createUser = (username: string, password: string) => {
 };
 
 
-export const updateUserProfile = (userId: number, updatedData: any) => {
+export const updateUserProfile = (token: string, userId: number, updatedData: any) => {
     return async (dispatch: Dispatch) => {
-        dispatch(updateProfileRequest());
+      dispatch(updateProfileRequest());
+  
+      // Remove properties that should not be sent in the request body
+      const { id, username, admin, ...updateData } = updatedData;
+  
+      try {
+        const response = await fetch(`http://localhost:9090/users/${userId}?token=${token}`, {
+          method: 'PATCH', 
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(updateData)
+        });
+  
+        if (response.ok) {
+          const data = await response.json();
+          dispatch(updateProfileSuccess(data));
+        } else {
+          const errorData = await response.json();
+          dispatch(updateProfileFailure(errorData.error || "Error updating profile."));
+        }
+  
+      } catch (error) {
+        dispatch(updateProfileFailure("Network error. Please try again."));
+      }
+    };
+  };
 
+export const getUserProfile = (token: string, userId: number) => {
+    return async (dispatch: Dispatch) => {
+        dispatch(getUserRequest());
+ 
         try {
-            const response = await fetch(`http://localhost:9090/users/${userId}`, {
-                method: 'PATCH', 
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(updatedData)
-            });
-
+            const response = await fetch(`http://localhost:9090/users/${userId}?token=${token}`);
+            
             if (response.ok) {
                 const data = await response.json();
-                dispatch(updateProfileSuccess(data));
+                dispatch(getUserSuccess(data));
             } else {
-                dispatch(updateProfileFailure("Error updating profile."));
+                dispatch(getUserFailure("Error getting profile."));
             }
 
         } catch (error) {
-            dispatch(updateProfileFailure("Network error. Please try again."));
+            dispatch(getUserFailure("Network error. Please try again."));
         }
     };
 };
-

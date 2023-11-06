@@ -12,12 +12,15 @@ import {
   UPDATE_PROFILE_REQUEST,
   UPDATE_PROFILE_SUCCESS,
   UPDATE_PROFILE_FAILURE,
+  GET_USER_REQUEST,
+  GET_USER_FAILURE,
+  GET_USER_SUCCESS,
 } from "../actions/userActionTypes";
 
 // Initial state for the user reducer
 const initialState = {
   isLoggedIn: false,
-  isCreatingUser: false, 
+  isCreatingUser: false,
   userData: null,
   token: null,
   userId: null,
@@ -49,6 +52,20 @@ const userReducer = (state = initialState, action: any) => {
 
     case LOGOUT:
       return { ...initialState };
+
+    case GET_USER_REQUEST:
+      return { ...state, isLoggedIn: false, error: null };
+
+    case GET_USER_SUCCESS:
+      return {
+        ...state,
+        isLoggedIn: true,
+        userData: action.payload,
+        error: null,
+      };
+
+    case GET_USER_FAILURE:
+      return { ...state, isLoggedIn: true, error: action.payload };
 
     case CREATE_USER_REQUEST:
       return { ...state, isCreatingUser: true, error: null };
