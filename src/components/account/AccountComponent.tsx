@@ -1,7 +1,7 @@
 import { Card, TextField, Button } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../reducers";
+import { RootState } from "../../reducers/rootReducer";
 import { getUserProfile, updateUserProfile } from "../../thunks/userThunks";
 import "./accountStyles.css";
 import { AppDispatch } from "../../store";

@@ -17,7 +17,7 @@ import {
   DialogActions,
   Button,
 } from "@mui/material";
-import { RootState } from "../../reducers";
+import { RootState } from "../../reducers/rootReducer";
 
 const Topbar: FunctionComponent = () => {
   const token = useSelector((state: RootState) => state.user.token);
