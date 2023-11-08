@@ -124,8 +124,7 @@ function isPositionWithinBoard<T>(pos: Position, board: Board<T>): boolean {
     pos.col < board.width
   );
 }
-
-function checkForMatch<T>(position: Position, board: T[][]): Position[] {
+ function checkForMatch<T>(position: Position, board: T[][]): Position[] {
     const tile = board[position.row][position.col];
     const matchedPositions: Position[] = [];
 

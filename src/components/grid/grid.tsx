@@ -8,9 +8,15 @@ import {
 } from "react";
 import "./styles.css";
 import { useDispatch, useSelector } from "react-redux";
-import { selectSecondTile, selectTile } from "../../actions/boardActions";
+import {
+  Position,
+  selectSecondTile,
+  selectTile,
+} from "../../actions/boardActions";
 import { areInSameRowOrColumn } from "../../gameLogic/board";
 import { RootState } from "../../reducers/rootReducer";
+import { checkForMatch } from "../../gameLogic/boardLogic";
+import { get } from "http";
 
 interface GameGridProps {
   size: number;
@@ -24,6 +30,21 @@ const GameGrid: FunctionComponent<GameGridProps> = (props) => {
   const dispatch = useDispatch();
   const [erorMessage, setErrorMessage] = useState("");
   const tableData = Array.from({ length: size }, () => Array(size).fill(null));
+  const [matches, setMatches] = useState<any>([]);
+
+  function getBoard() {
+    const table = document.getElementById("tableBody");
+    let tableContent: any[][] = [];
+    tableContent = Array.from({ length: 8 }, () => Array(8).fill(0));
+
+    if (table?.childNodes.length)
+      for (let i = 0; i < table?.childNodes?.length; i++) {
+        for (let j = 0; j < table?.childNodes[i].childNodes.length; j++) {
+          tableContent[i][j] = table?.childNodes[i].childNodes[j].textContent;
+        }
+      }
+    return tableContent;
+  }
 
   useEffect(() => {
     const generator = ["A", "B", "C", "D"];
@@ -82,16 +103,39 @@ const GameGrid: FunctionComponent<GameGridProps> = (props) => {
         resetSelectedTiles();
       } else {
         setErrorMessage("");
+        const board = getBoard();
+
+        console.log(selectedTile.selectedTile.position);
+
+        if (selectedTile.selectedTile.position.row) {
+          setMatches(checkForMatch(tileToSwap.selectedTile.position, board));
+        }
         swap(selectedTile, tileToSwap);
       }
     } else {
     }
-  }, [selectedTile, tileToSwap, swap, resetSelectedTiles]);
+  }, [
+    selectedTile,
+    tileToSwap,
+    swap,
+    resetSelectedTiles,
+    checkForMatch,
+    getBoard,
+  ]);
 
+  useEffect(() => {
+    console.log(matches);
+    for (let i = 0; i < matches.length; i++) {
+      const cell = document.getElementById(
+        `cell${matches[i].row + 1}-${matches[i].col + 1}`
+      );
+      if (cell) cell.style.background = "green";
+    }
+  }, [matches]);
   return (
     <div>
       <table>
-        <tbody>
+        <tbody id="tableBody">
           {tableData.map((row, rowIndex) => (
             <tr key={rowIndex}>
               {row.map((cell, cellIndex) => (
