@@ -1,7 +1,7 @@
 //userThunks.ts
 import { Dispatch } from 'redux';
 import { loginRequest, loginSuccess, loginFailure, setUserToken, logout, createUserRequest, createUserSuccess, createUserFailure, updateProfileRequest, updateProfileSuccess, updateProfileFailure, getUserRequest, getUserSuccess, getUserFailure } from '../actions/userActions';
-import { get } from 'http';
+
 
 export const loginUser = (username: string, password: string) => {
     return async (dispatch: Dispatch) => {

@@ -2,7 +2,7 @@ import React, { useEffect, useState, ChangeEvent, FormEvent, useCallback } from 
 import { useDispatch, useSelector } from "react-redux";
 import { createUser, loginUser } from "../../thunks/userThunks";
 import { AppDispatch } from "../../store";
-import { RootState } from "../../reducers";
+import { RootState } from "../../reducers/rootReducer";
 import Card from "@mui/material/Card";
 import {
   Button,
