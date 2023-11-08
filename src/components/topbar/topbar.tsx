@@ -1,4 +1,4 @@
-import { FunctionComponent, useState } from "react";
+import { FunctionComponent} from "react";
 import LogoutIcon from "@mui/icons-material/Logout";
 import PersonIcon from "@mui/icons-material/Person";
 import ExtensionIcon from "@mui/icons-material/Extension";
@@ -17,7 +17,7 @@ import {
   DialogActions,
   Button,
 } from "@mui/material";
-import { RootState } from "../../reducers";
+import { RootState } from "../../reducers/rootReducer";
 
 const Topbar: FunctionComponent = () => {
   const token = useSelector((state: RootState) => state.user.token);

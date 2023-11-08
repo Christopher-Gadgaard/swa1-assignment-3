@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-d
 import { useSelector } from "react-redux";
 import { Provider } from "react-redux";
 import store from "./store"; 
-import { RootState } from "./reducers"; 
+import { RootState } from "./reducers/rootReducer"; 
 import "./App.css";
 import Game from "./pages/game/game";
 import AccountPage from "./pages/account/account";
