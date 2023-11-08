@@ -35,7 +35,15 @@ const GameGrid: FunctionComponent<GameGridProps> = (props) => {
       }
     }
   }, [size]);
-
+  const resetSelectedTiles = useCallback(() => {
+    if (
+      selectedTile.selectedTile.position !== undefined &&
+      tileToSwap.selectedTile.position !== undefined
+    ) {
+      dispatch(selectTile(undefined));
+      dispatch(selectSecondTile(undefined));
+    }
+  }, [dispatch, selectedTile, tileToSwap]);
   const swap = useCallback(
     (selectedTile: any, selectedTileToSwap: any) => {
       const firstCell = document.getElementById(
@@ -56,25 +64,14 @@ const GameGrid: FunctionComponent<GameGridProps> = (props) => {
       if (firstCell) firstCell.innerHTML = `${secondCellValue}`;
       resetSelectedTiles();
     },
-    [dispatch]
+    [resetSelectedTiles]
   );
-
-  function resetSelectedTiles() {
-    if (
-      selectedTile.selectedTile.position !== undefined &&
-      tileToSwap.selectedTile.position !== undefined
-    ) {
-      dispatch(selectTile(undefined));
-      dispatch(selectSecondTile(undefined));
-    }
-  }
 
   useEffect(() => {
     if (
       selectedTile.selectedTile.position &&
       tileToSwap.selectedTile.position
     ) {
-      console.log("fasdfas");
       if (
         !areInSameRowOrColumn(
           selectedTile.selectedTile.position,
@@ -88,11 +85,8 @@ const GameGrid: FunctionComponent<GameGridProps> = (props) => {
         swap(selectedTile, tileToSwap);
       }
     } else {
-      console.log("dindnt work");
     }
-    console.log(selectedTile, "selectedTile");
-    console.log(tileToSwap, "tileToSwap");
-  }, [selectedTile, tileToSwap, swap]);
+  }, [selectedTile, tileToSwap, swap, resetSelectedTiles]);
 
   return (
     <div>
@@ -105,10 +99,8 @@ const GameGrid: FunctionComponent<GameGridProps> = (props) => {
                   <Card
                     onClick={() => {
                       if (!selectedTile.selectedTile.position) {
-                        console.log("select first");
                         dispatch(selectTile({ row: rowIndex, col: cellIndex }));
                       } else if (!tileToSwap.selectedTile.position) {
-                        console.log("select second");
                         dispatch(
                           selectSecondTile({ row: rowIndex, col: cellIndex })
                         );
