@@ -9,8 +9,8 @@ import {
 import "./styles.css";
 import { useDispatch, useSelector } from "react-redux";
 import { selectSecondTile, selectTile } from "../../actions/boardActions";
-import { RootState } from "../../reducers";
 import { areInSameRowOrColumn } from "../../gameLogic/board";
+import { RootState } from "../../reducers/rootReducer";
 
 interface GameGridProps {
   size: number;
