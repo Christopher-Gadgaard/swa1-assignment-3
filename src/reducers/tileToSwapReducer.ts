@@ -1,7 +1,12 @@
 import { SELECT_SECOND_TILE } from "../actions/boardActionTypes";
 
 const initialState = {
-    selectedTileToSwap: null,
+    selectedTile:{
+        position:{
+          row:undefined,
+          col:undefined
+        }
+      }
   };
   
 const tileToSwapReducer = (state = initialState, action:any) => {
@@ -9,7 +14,7 @@ const tileToSwapReducer = (state = initialState, action:any) => {
         case SELECT_SECOND_TILE:
             return {
             ...state,
-            selectedTileToSwap: action.payload,
+            selectedTile: action.payload,
             };
         default:
             return state;

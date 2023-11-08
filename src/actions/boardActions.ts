@@ -1,11 +1,15 @@
 import { SELECT_SECOND_TILE, SELECT_TILE } from "./boardActionTypes";
 
-export const selectTile = (row:number, col:number) => ({
+export type Position ={
+    row:number|undefined;
+    col:number|undefined;
+}
+export const selectTile = (position:Position|undefined) => ({
     type: SELECT_TILE,
-    payload: { row, col },
+    payload: { position},
   });
-  export const selectSecondTile = (row:number, col:number) => ({
+  export const selectSecondTile = (position:Position|undefined) => ({
     type: SELECT_SECOND_TILE,
-    payload: { row, col },
+    payload: { position},
   });
   

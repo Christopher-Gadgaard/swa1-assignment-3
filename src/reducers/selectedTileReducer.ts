@@ -4,7 +4,12 @@ import { SELECT_TILE } from "../actions/boardActionTypes";
 
 // Reducer
 const initialState = {
-  selectedTile: null,
+  selectedTile:{
+    position:{
+      row:undefined,
+      col:undefined
+    }
+  }
 };
 
 

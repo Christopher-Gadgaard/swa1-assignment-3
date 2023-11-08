@@ -1,5 +1,11 @@
 import { Card, Typography } from "@mui/material";
-import { FunctionComponent, ReactNode, useEffect, useState } from "react";
+import {
+  FunctionComponent,
+  ReactNode,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import "./styles.css";
 import { useDispatch, useSelector } from "react-redux";
 import { selectSecondTile, selectTile } from "../../actions/boardActions";
@@ -29,36 +35,65 @@ const GameGrid: FunctionComponent<GameGridProps> = (props) => {
       }
     }
   }, [size]);
+
+  const swap = useCallback(
+    (selectedTile: any, selectedTileToSwap: any) => {
+      const firstCell = document.getElementById(
+        `cell${selectedTile.selectedTile.position.row + 1}-${
+          selectedTile.selectedTile.position.col + 1
+        }`
+      );
+      const firstCellValue = firstCell?.innerHTML;
+
+      const secondCell = document.getElementById(
+        `cell${selectedTileToSwap.selectedTile.position.row + 1}-${
+          selectedTileToSwap.selectedTile.position.col + 1
+        }`
+      );
+      const secondCellValue = secondCell?.innerHTML;
+      if (secondCell) secondCell.innerHTML = `${firstCellValue}`;
+
+      if (firstCell) firstCell.innerHTML = `${secondCellValue}`;
+      resetSelectedTiles();
+    },
+    [dispatch]
+  );
+
+  function resetSelectedTiles() {
+    if (
+      selectedTile.selectedTile.position !== undefined &&
+      tileToSwap.selectedTile.position !== undefined
+    ) {
+      dispatch(selectTile(undefined));
+      dispatch(selectSecondTile(undefined));
+    }
+  }
+
   useEffect(() => {
-    if (selectedTile.selectedTile && tileToSwap.selectedTileToSwap) {
+    if (
+      selectedTile.selectedTile.position &&
+      tileToSwap.selectedTile.position
+    ) {
+      console.log("fasdfas");
       if (
         !areInSameRowOrColumn(
-          selectedTile.selectedTile,
-          tileToSwap.selectedTileToSwap
+          selectedTile.selectedTile.position,
+          tileToSwap.selectedTile.position
         )
       ) {
         setErrorMessage("Tiles are not in the same row or column");
+        resetSelectedTiles();
       } else {
         setErrorMessage("");
-        swap(selectedTile.selectedTile, tileToSwap.selectedTileToSwap);
+        swap(selectedTile, tileToSwap);
       }
+    } else {
+      console.log("dindnt work");
     }
-  }, [selectedTile, tileToSwap]);
+    console.log(selectedTile, "selectedTile");
+    console.log(tileToSwap, "tileToSwap");
+  }, [selectedTile, tileToSwap, swap]);
 
-  function swap(selectedTile: any, selectedTileToSwap: any) {
-    const firstCell = document.getElementById(
-      `cell${selectedTile.row + 1}-${selectedTile.col + 1}`
-    );
-    const firstCellValue = firstCell?.innerHTML;
-
-    const secondCell = document.getElementById(
-      `cell${selectedTileToSwap.row + 1}-${selectedTileToSwap.col + 1}`
-    );
-    const secondCellValue = secondCell?.innerHTML;
-    if (secondCell) secondCell.innerHTML = `${firstCellValue}`;
-
-    if (firstCell) firstCell.innerHTML = `${secondCellValue}`;
-  }
   return (
     <div>
       <table>
@@ -67,33 +102,34 @@ const GameGrid: FunctionComponent<GameGridProps> = (props) => {
             <tr key={rowIndex}>
               {row.map((cell, cellIndex) => (
                 <td key={cellIndex}>
-                  {/* You can customize the content of each cell here */}
                   <Card
+                    onClick={() => {
+                      if (!selectedTile.selectedTile.position) {
+                        console.log("select first");
+                        dispatch(selectTile({ row: rowIndex, col: cellIndex }));
+                      } else if (!tileToSwap.selectedTile.position) {
+                        console.log("select second");
+                        dispatch(
+                          selectSecondTile({ row: rowIndex, col: cellIndex })
+                        );
+                      }
+                    }}
                     sx={{
                       cursor: "pointer",
                       background: `${
-                        selectedTile.selectedTile &&
-                        selectedTile.selectedTile.row === rowIndex &&
-                        selectedTile.selectedTile.col === cellIndex
+                        selectedTile.selectedTile.position &&
+                        selectedTile.selectedTile.position.row === rowIndex &&
+                        selectedTile.selectedTile.position.col === cellIndex
                           ? "red"
                           : "white"
                       }`,
-                    }}
-                    onClick={() => {
-                      if (!selectedTile.selectedTile) {
-                        dispatch(selectTile(rowIndex, cellIndex));
-                      } else {
-                        dispatch(selectSecondTile(rowIndex, cellIndex));
-                      }
                     }}
                     id={`cell${rowIndex + 1}-${cellIndex + 1}`}
                     className="cell"
                   >
                     {children
-                      ? // If children prop is provided, use it as the content
-                        children
-                      : // Otherwise, default content
-                        `Row ${rowIndex + 1}, Col ${cellIndex + 1}`}
+                      ? children
+                      : `Row ${rowIndex + 1}, Col ${cellIndex + 1}`}
                   </Card>
                 </td>
               ))}
