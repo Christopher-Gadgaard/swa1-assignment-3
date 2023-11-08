@@ -6,9 +6,9 @@ import {
     POST_GAME_REQUEST,
     POST_GAME_SUCCESS,
     POST_GAME_FAILURE,
-    GET_PLAYER_GAMES_REQUEST,
-    GET_PLAYER_GAMES_SUCCESS,
-    GET_PLAYER_GAMES_FAILURE,
+    GET_GAME_BY_ID_REQUEST,
+    GET_GAME_BY_ID_SUCCESS,
+    GET_GAME_BY_ID_FAILURE,
     UPDATE_GAME_REQUEST,
     UPDATE_GAME_SUCCESS,
     UPDATE_GAME_FAILURE
@@ -42,17 +42,17 @@ export const postGameFailure = (error: string) => ({
     payload: error
 });
 
-export const getPlayerGamesRequest = () => ({
-    type: GET_PLAYER_GAMES_REQUEST
+export const getGameByIdRequest = () => ({
+    type: GET_GAME_BY_ID_REQUEST
 });
 
-export const getPlayerGamesSuccess = (playerGamesData: any) => ({
-    type: GET_PLAYER_GAMES_SUCCESS,
-    payload: playerGamesData
+export const getGameByIdSuccess = (gameData: any) => ({
+    type: GET_GAME_BY_ID_SUCCESS,
+    payload: gameData
 });
 
-export const getPlayerGamesFailure = (error: string) => ({
-    type: GET_PLAYER_GAMES_FAILURE,
+export const getGameByIdFailure = (error: string) => ({
+    type: GET_GAME_BY_ID_FAILURE,
     payload: error
 });
 
