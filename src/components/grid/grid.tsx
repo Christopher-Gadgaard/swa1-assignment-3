@@ -4,6 +4,7 @@ import {
   ReactNode,
   useCallback,
   useEffect,
+  useLayoutEffect,
   useState,
 } from "react";
 import "./styles.css";
@@ -111,7 +112,7 @@ const GameGrid: FunctionComponent<GameGridProps> = (props) => {
     },
     [resetSelectedTiles]
   );
-
+  //check if tiles are in same row or column
   useEffect(() => {
     if (
       selectedTile.selectedTile.position &&
@@ -127,17 +128,12 @@ const GameGrid: FunctionComponent<GameGridProps> = (props) => {
         resetSelectedTiles();
       } else {
         setErrorMessage("");
-        // const board = getBoard();
-        // console.log(board);
 
-        console.log(selectedTile.selectedTile.position);
         const value = document.getElementById(
           `cell${selectedTile.selectedTile.position.row + 1}-${
             selectedTile.selectedTile.position.col + 1
           }`
         )?.textContent;
-        // console.log(value, "value");
-        // console.log(tileToSwap.selectedTile.position, "position");
 
         let tempBoard = getTempBoard(
           tileToSwap.selectedTile.position,
@@ -147,9 +143,7 @@ const GameGrid: FunctionComponent<GameGridProps> = (props) => {
         setMatches(
           checkForMatch(tileToSwap.selectedTile.position, value, tempBoard)
         );
-
         swap(selectedTile, tileToSwap);
-        // console.log(matches);
       }
     }
   }, [
@@ -161,7 +155,7 @@ const GameGrid: FunctionComponent<GameGridProps> = (props) => {
     getBoard,
     matches,
   ]);
-
+  //color matched tiles
   useEffect(() => {
     for (let i = 0; i < matches.length; i++) {
       const cell = document.getElementById(
@@ -172,6 +166,102 @@ const GameGrid: FunctionComponent<GameGridProps> = (props) => {
       }
     }
   }, [matches]);
+
+  const dropTiles = () => {
+    const table = document.getElementById("tableBody");
+    let tableContent: any[][] = [];
+    tableContent = Array.from({ length: 8 }, () => Array(8).fill(0));
+
+    if (table?.childNodes.length)
+      for (let i = 0; i < table?.childNodes?.length; i++) {
+        for (let j = 0; j < table?.childNodes[i].childNodes.length; j++) {
+          tableContent[i][j] = table?.childNodes[i].childNodes[j].textContent;
+        }
+      }
+
+    const dropTileAtPosition = (row: number, col: number): void => {
+      // Base case: Stop recursion if we reach the top row or the current element is not empty, null, or undefined
+      if (
+        row === 0 ||
+        (tableContent[row][col] !== " " && tableContent[row][col] != null)
+      ) {
+        return;
+      }
+
+      // Swap the current element with the one above it
+      [tableContent[row][col], tableContent[row - 1][col]] = [
+        tableContent[row - 1][col],
+        tableContent[row][col],
+      ];
+
+      // Continue dropping recursively for the element above
+      dropTileAtPosition(row - 1, col);
+    };
+    for (let col = 0; col < tableContent[0].length; col++) {
+      // Start from the top row
+      for (let row = 0; row < tableContent.length; row++) {
+        dropTileAtPosition(row, col);
+      }
+
+      for (let row = 0; row < tableContent.length; row++) {
+        const cell = document.getElementById(
+          `cell${row + 1}-${col + 1}`
+        ) as HTMLElement;
+        cell.innerHTML = tableContent[row][col];
+      }
+    }
+    let generator = ["A", "B", "C", "D", "E", "F"];
+    //Fill the top row with random values
+
+    for (let row = 0; row < size; row++) {
+      for (let col = 0; col < size; col++) {
+        if (tableContent[row][col] === " ") {
+          const cell = document.getElementById(
+            `cell${row + 1}-${col + 1}`
+          ) as HTMLElement;
+          cell.innerHTML =
+            generator[Math.floor(Math.random() * generator.length)];
+        }
+      }
+    }
+  };
+  //delete matched tiles
+  useEffect(() => {
+    for (let i = 0; i < matches.length; i++) {
+      const table = document.getElementById("tableBody");
+      let tableContent: any[][] = [];
+      tableContent = Array.from({ length: 8 }, () => Array(8).fill(0));
+
+      if (table?.childNodes.length)
+        for (let i = 0; i < table?.childNodes?.length; i++) {
+          for (let j = 0; j < table?.childNodes[i].childNodes.length; j++) {
+            tableContent[i][j] = table?.childNodes[i].childNodes[j].textContent;
+          }
+        }
+    }
+    for (let i = 0; i < matches.length; i++) {
+      let tile = document.getElementById(
+        `cell${matches[i].row + 1}-${matches[i].col + 1}`
+      );
+
+      if (tile) {
+        tile.innerHTML = " ";
+      }
+    }
+
+    setTimeout(() => {
+      for (let i = 0; i < matches.length; i++) {
+        const cell = document.getElementById(
+          `cell${matches[i].row + 1}-${matches[i].col + 1}`
+        );
+        if (cell) {
+          cell.style.background = "white";
+        }
+      }
+      dropTiles();
+    }, 1000);
+  }, [matches, dropTiles]);
+
   return (
     <div>
       <table>
@@ -189,6 +279,9 @@ const GameGrid: FunctionComponent<GameGridProps> = (props) => {
                           selectSecondTile({ row: rowIndex, col: cellIndex })
                         );
                       }
+                      setTimeout(() => {
+                        setMatches([]);
+                      }, 1000);
                     }}
                     sx={{
                       cursor: "pointer",
