@@ -16,7 +16,6 @@ import {
 import { areInSameRowOrColumn } from "../../gameLogic/board";
 import { RootState } from "../../reducers/rootReducer";
 import { checkForMatch } from "../../gameLogic/boardLogic";
-import { get } from "http";
 
 interface GameGridProps {
   size: number;
@@ -45,9 +44,33 @@ const GameGrid: FunctionComponent<GameGridProps> = (props) => {
       }
     return tableContent;
   }
+  const getTempBoard = (firstTile: Position, secondTile: Position) => {
+    const table = document.getElementById("tableBody");
+    let tableContent: any[][] = [];
+    tableContent = Array.from({ length: 8 }, () => Array(8).fill(0));
 
+    if (table?.childNodes.length)
+      for (let i = 0; i < table?.childNodes?.length; i++) {
+        for (let j = 0; j < table?.childNodes[i].childNodes.length; j++) {
+          tableContent[i][j] = table?.childNodes[i].childNodes[j].textContent;
+        }
+      }
+    if (
+      firstTile.row !== undefined &&
+      firstTile.col !== undefined &&
+      secondTile.row !== undefined &&
+      secondTile.col !== undefined
+    ) {
+      let firstTileValue = tableContent[firstTile.row][firstTile.col];
+      let secondTileValue = tableContent[secondTile.row][secondTile.col];
+      tableContent[firstTile.row][firstTile.col] = secondTileValue;
+
+      tableContent[secondTile.row][secondTile.col] = firstTileValue;
+    }
+    return tableContent;
+  };
   useEffect(() => {
-    const generator = ["A", "B", "C", "D"];
+    const generator = ["A", "B", "C", "D", "E", "F"];
 
     for (let i = 0; i < size; i++) {
       for (let j = 0; j < size; j++) {
@@ -65,6 +88,7 @@ const GameGrid: FunctionComponent<GameGridProps> = (props) => {
       dispatch(selectSecondTile(undefined));
     }
   }, [dispatch, selectedTile, tileToSwap]);
+
   const swap = useCallback(
     (selectedTile: any, selectedTileToSwap: any) => {
       const firstCell = document.getElementById(
@@ -103,16 +127,30 @@ const GameGrid: FunctionComponent<GameGridProps> = (props) => {
         resetSelectedTiles();
       } else {
         setErrorMessage("");
-        const board = getBoard();
+        // const board = getBoard();
+        // console.log(board);
 
         console.log(selectedTile.selectedTile.position);
+        const value = document.getElementById(
+          `cell${selectedTile.selectedTile.position.row + 1}-${
+            selectedTile.selectedTile.position.col + 1
+          }`
+        )?.textContent;
+        // console.log(value, "value");
+        // console.log(tileToSwap.selectedTile.position, "position");
 
-        if (selectedTile.selectedTile.position.row) {
-          setMatches(checkForMatch(tileToSwap.selectedTile.position, board));
-        }
+        let tempBoard = getTempBoard(
+          tileToSwap.selectedTile.position,
+          selectedTile.selectedTile.position
+        );
+        console.log(tempBoard, "tempBoard");
+        setMatches(
+          checkForMatch(tileToSwap.selectedTile.position, value, tempBoard)
+        );
+
         swap(selectedTile, tileToSwap);
+        // console.log(matches);
       }
-    } else {
     }
   }, [
     selectedTile,
@@ -121,15 +159,17 @@ const GameGrid: FunctionComponent<GameGridProps> = (props) => {
     resetSelectedTiles,
     checkForMatch,
     getBoard,
+    matches,
   ]);
 
   useEffect(() => {
-    console.log(matches);
     for (let i = 0; i < matches.length; i++) {
       const cell = document.getElementById(
         `cell${matches[i].row + 1}-${matches[i].col + 1}`
       );
-      if (cell) cell.style.background = "green";
+      if (cell) {
+        cell.style.background = "green";
+      }
     }
   }, [matches]);
   return (

@@ -1,7 +1,7 @@
 import { Position } from "./board";
 
-export function checkForMatch(position: Position, board: any[][]): Position[] {
-    const tile = board[position.row][position.col];
+export function checkForMatch(position: Position, tile:any,  board: any[][]): Position[] {
+
     const matchedPositions: Position[] = [];
 
     if (!tile) return matchedPositions;
