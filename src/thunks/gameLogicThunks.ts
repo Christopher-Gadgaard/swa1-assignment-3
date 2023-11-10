@@ -10,7 +10,7 @@ export const makeMove = (firstTile: { x: number, y: number }, secondTile: { x: n
   const state: RootState = getState();
 
   // Access the game state from the correct slice
-  const gameLogic = state.game; // Assuming your game slice is named 'game'
+  const gameLogic = state.gameLogic; // Assuming your game slice is named 'game'
 
   if (isLegalMove(gameLogic.board, firstTile, secondTile)) {
     // Since swapTiles is now an action from the slice, you can just dispatch it

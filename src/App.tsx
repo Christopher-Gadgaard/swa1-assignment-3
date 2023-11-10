@@ -5,7 +5,7 @@ import { Provider } from "react-redux";
 import store from "./store"; 
 import { RootState } from "./reducers/rootReducer"; 
 import "./App.css";
-import Game from "./pages/game/game";
+import Game from "./pages/game/GamePage";
 import AccountPage from "./pages/account/account";
 import ScorebardPage from "./pages/scoreboard/scoreboard";
 import LoginPage from "./pages/login/login";

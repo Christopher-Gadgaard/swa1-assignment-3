@@ -48,15 +48,56 @@ export const performSwap = (board: Tile[][], firstTile: { x: number, y: number }
   return newBoard;
 };
 
-// Function to find all matches on the board
-export const findMatches = (board: Tile[][]): Array<{ x: number, y: number }> => {
-  // Placeholder implementation - you will need to implement the logic for finding matches
-  // This should return an array of coordinates for each tile that is part of a match
+// Function to find all horizontal matches on the board
+const findHorizontalMatches = (board: Tile[][]): Array<{ x: number, y: number }> => {
   let matches: Array<{ x: number, y: number }> = [];
-  
-  // TODO: Add logic to find matches
+
+  for (let x = 0; x < board.length; x++) {
+    for (let y = 0; y < board[x].length - 2; y++) {
+      if (board[x][y].type === board[x][y + 1].type && board[x][y].type === board[x][y + 2].type) {
+        matches.push({ x, y });
+        matches.push({ x, y: y + 1 });
+        matches.push({ x, y: y + 2 });
+        
+        // Skip the next two tiles in the row since we've already found a match
+        y += 2;
+      }
+    }
+  }
 
   return matches;
+};
+
+// Function to find all vertical matches on the board
+const findVerticalMatches = (board: Tile[][]): Array<{ x: number, y: number }> => {
+  let matches: Array<{ x: number, y: number }> = [];
+
+  for (let y = 0; y < board[0].length; y++) {
+    for (let x = 0; x < board.length - 2; x++) {
+      if (board[x][y].type === board[x + 1][y].type && board[x][y].type === board[x + 2][y].type) {
+        matches.push({ x, y });
+        matches.push({ x: x + 1, y });
+        matches.push({ x: x + 2, y });
+
+        // Skip the next two tiles in the column since we've already found a match
+        x += 2;
+      }
+    }
+  }
+
+  return matches;
+};
+
+// Function to find all matches on the board
+export const findMatches = (board: Tile[][]): Array<{ x: number, y: number }> => {
+  let matches = [
+    ...findHorizontalMatches(board),
+    ...findVerticalMatches(board) // Combine horizontal and vertical matches
+  ];
+
+  // Remove duplicates from the matches array, as a tile could be part of both a horizontal and a vertical match
+  const uniqueMatches = Array.from(new Set(matches.map(match => JSON.stringify(match)))).map(str => JSON.parse(str));
+  return uniqueMatches;
 };
 
 // Function to drop down tiles after matches have been removed

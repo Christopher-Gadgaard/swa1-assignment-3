@@ -1,7 +1,7 @@
 // gameSlice.ts
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { createInitialBoard, performSwap, findMatches, dropDownTiles, isLegalMove } from '../gameLogic/gameLogicUtils';
-import { Tile, TileType } from '../reducers/gameLogicReducer';
+import { createInitialBoard, performSwap, findMatches, dropDownTiles, isLegalMove, Tile } from '../gameLogic/gameLogicUtils';
+
 
 interface GameState {
   board: Tile[][];
