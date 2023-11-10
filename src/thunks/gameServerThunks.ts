@@ -1,4 +1,4 @@
-// gameThunks.ts
+// gameServerThunks.ts
 import { Dispatch } from 'redux';
 import {
   getGamesRequest,
