@@ -48,6 +48,39 @@
     height: 100%; /* Make SVG fill the tile */
     object-fit: contain; /* Preserve aspect ratio within the tile */
   }
+
+  .tile.empty {
+    background-color: #f0f0f0; /* color for empty tile, choose a color that indicates an empty space */
+    border: 1px dashed #ccc; /* a dashed border can indicate that the tile is empty */
+    cursor: default; /* change cursor to default to indicate it's not selectable */
+  }
   
+
+  /* Animation for highlighting matched tiles */
+@keyframes highlight-match {
+  0% { background-color: #ffff99; } /* Highlight color */
+  100% { background-color: #ffff99; } /* Highlight color */
+}
+
+.tile.match-highlight {
+  animation: highlight-match 0.5s; /* Run the highlight animation */
+}
+
+/* Animation for fading out matched tiles */
+@keyframes fade-out {
+  to { opacity: 0; }
+}
+
+.tile.fade-out {
+  animation: fade-out 0.5s forwards; /* Fade out and keep the tile hidden */
+}
+
+/* Style for empty tiles before they drop down */
+.tile.empty {
+  background-color: #f0f0f0; /* color for empty tile */
+  border: 1px dashed #ccc; /* dashed border for empty tile */
+  opacity: 0; /* start with invisible tiles */
+  transition: opacity 0.5s ease-in-out; /* animate the appearance of empty tiles */
+}
   /* ... */
   
