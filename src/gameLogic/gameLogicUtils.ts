@@ -1,6 +1,39 @@
 // gameLogicUtils.ts
 
-import { Tile } from '../reducers/gameLogicReducer'; 
+
+const BOARD_WIDTH = 8;
+const BOARD_HEIGHT = 8;
+
+// Define a type for the tile types that corresponds to the keys in tileIcons
+export type TileType = 'type-1' | 'type-2' | 'type-3' | 'type-4';
+
+// Define the shape of a single tile
+export interface Tile {
+  type: TileType;
+  // ... other properties
+}
+
+
+// Function to create an initial board without any matches
+export const createInitialBoard = (): Tile[][] => {
+  let board: Tile[][] = [];
+  for (let x = 0; x < BOARD_HEIGHT; x++) {
+    let row: Tile[] = [];
+    for (let y = 0; y < BOARD_WIDTH; y++) {
+      // You can replace this with the actual logic to ensure no initial matches
+      row.push(createRandomTile());
+    }
+    board.push(row);
+  }
+  return board;
+};
+
+// Utility function to create a random tile
+export const createRandomTile = (): Tile => {
+  const tileTypes: TileType[] = ['type-1', 'type-2', 'type-3', 'type-4']; // Update with actual tile types
+  const randomIndex = Math.floor(Math.random() * tileTypes.length);
+  return { type: tileTypes[randomIndex] };
+};
 
 // Function to swap two tiles on the board
 export const performSwap = (board: Tile[][], firstTile: { x: number, y: number }, secondTile: { x: number, y: number }): Tile[][] => {

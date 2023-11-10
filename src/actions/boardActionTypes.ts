@@ -1,4 +1,0 @@
-export const SELECTED_TILE = 'SELECTED_TILE';
-export const SELECT_TILE= 'SELECT_TILE';
-export const SWAP_TILE= 'SWAP_TILE';
-export const SELECT_SECOND_TILE= 'SELECT_SECOND_TILE';

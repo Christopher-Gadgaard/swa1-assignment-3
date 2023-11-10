@@ -1,0 +1,53 @@
+/* GameComponent.css */
+
+.game-board {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 20px;
+    user-select: none;
+  }
+  
+  .board-row {
+    display: flex;
+  }
+  
+  .tile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px; /* width of each tile */
+    height: 50px; /* height of each tile */
+    border: 1px solid #ddd; /* border of the tiles */
+    margin: 2px; /* spacing between tiles */
+    cursor: pointer; /* cursor when hovering over a tile */
+    transition: transform 0.2s ease-in-out; /* smooth transition for tile interactions */
+  }
+  
+  .tile.selected {
+    transform: scale(1.1); /* scale selected tile to 110% of its size */
+    border-color: #000; /* change border color for selected tile */
+  }
+  
+  /* Add classes for different tile types based on your game's design. Example: */
+  .tile.type-1 {
+    background-color: red; /* color for tile type 1 */
+  }
+  
+  .tile.type-2 {
+    background-color: blue; /* color for tile type 2 */
+  }
+  
+  .tile.type-3 {
+    background-color: green; /* color for tile type 3 */
+  }
+
+  .tile img {
+    width: 100%; /* Make SVG fill the tile */
+    height: 100%; /* Make SVG fill the tile */
+    object-fit: contain; /* Preserve aspect ratio within the tile */
+  }
+  
+  /* ... */
+  

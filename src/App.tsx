@@ -1,3 +1,4 @@
+//App.tsx 
 import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Provider } from "react-redux";

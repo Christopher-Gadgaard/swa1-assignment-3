@@ -1,48 +1,29 @@
-
 // gameLogicThunks.ts
 
-import { Dispatch } from 'redux';
-import { selectTile, swapTiles, removeMatches, dropTiles } from '../actions/gameLogicActions';
-import { RootState } from '../reducers/rootReducer';
-import { Tile } from '../reducers/gameLogicReducer'; 
-import { findMatches, performSwap, dropDownTiles } from '../gameLogic/gameLogicUtils'; 
+import { AppDispatch, RootState } from '../store';
+import { swapTiles } from '../slices/gameSlice'; // Import swapTiles action from gameSlice
+import { performSwap, findMatches, dropDownTiles, isLegalMove } from '../gameLogic/gameLogicUtils';
 
-// Thunk for making a move
-export const makeMove = (firstTile: { x: number, y: number }, secondTile: { x: number, y: number }) => {
-  return async (dispatch: Dispatch, getState: () => RootState) => {
-    const state: RootState = getState();
+// Thunk for making a move, now as a standard function, not a thunk
+export const makeMove = (firstTile: { x: number, y: number }, secondTile: { x: number, y: number }) => 
+(dispatch: AppDispatch, getState: () => RootState) => {
+  const state: RootState = getState();
 
-    // Now we're using state.gameLogic to access the game logic state
-    if (isLegalMove(state.gameLogic.board, firstTile, secondTile)) {
-      dispatch(swapTiles(firstTile, secondTile));
-      const newBoard = performSwap(state.gameLogic.board, firstTile, secondTile);
+  // Access the game state from the correct slice
+  const gameLogic = state.game; // Assuming your game slice is named 'game'
 
-      // Find matches
-      const matches = findMatches(newBoard);
-      if (matches.length > 0) {
-        dispatch(removeMatches(matches));
+  if (isLegalMove(gameLogic.board, firstTile, secondTile)) {
+    // Since swapTiles is now an action from the slice, you can just dispatch it
+    dispatch(swapTiles({ firstTile, secondTile }));
 
-        // Drop down tiles and fill the empty spaces with new tiles
-        const updatedBoard = dropDownTiles(newBoard, matches);
-        dispatch(dropTiles());
+    // Your swapTiles reducer will handle the board update, so you don't need to do it here
+    // The reducer will also handle finding matches and dropping tiles
+    // You should update the reducer to handle these additional side effects if it doesn't already
+  }
 
-        // If new matches are created from dropping, continue the process
-        // This may involve recursive checks or a while loop until there are no more matches
-        // ...
-      }
-    }
-
-    // If the move was not legal or no matches were found, you may want to dispatch an action to clear the selection or handle it accordingly
-  };
+  // If the move was not legal or no matches were found, you may want to update the state accordingly
+  // This can be done by dispatching additional actions, which you would define in your slice
 };
 
-// A utility function to check if the move is legal
-// We're assuming this function is defined in gameLogicUtils.ts and imported above
-
-
-// A utility function to check if the move is legal (to be created in gameLogicUtils.ts)
-const isLegalMove = (board: Tile[][], firstTile: { x: number, y: number }, secondTile: { x: number, y: number }): boolean => {
-    // Logic to determine if the move is legal
-    // Returns true if legal, false otherwise
-    return true; // Replace with your logic
-};
+// Note: Since the actions and state structure might have changed with the introduction of Redux Toolkit,
+// make sure to update the paths and action names according to your actual implementation.
