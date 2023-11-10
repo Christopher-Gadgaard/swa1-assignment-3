@@ -1,11 +1,11 @@
 // rootReducer.ts
 import { combineReducers } from '@reduxjs/toolkit';
-import userReducer from './userReducer';
+import userSlice from '../slices/userSlice';
 import gameSlice from '../slices/gameSlice'; 
 
 const rootReducer = combineReducers({
-  user: userReducer,
-  gameLogic: gameSlice, // Use the slice reducer for the game logic
+  user: userSlice,
+  gameLogic: gameSlice, 
   // ... add other slice reducers as you create them
 });
 

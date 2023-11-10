@@ -51,7 +51,7 @@ const AccountComponent: React.FC = () => {
       return;
     }
     // Dispatch the password update action
-    dispatch(updateUserProfile(token, userId, { password: myUserData.newPassword }));
+    //dispatch(updateUserProfile(token, userId, { password: myUserData.newPassword }));
     // Reset the edit mode
     setEditPasswordMode(false);
   };

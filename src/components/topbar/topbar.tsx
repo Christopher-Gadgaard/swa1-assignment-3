@@ -49,7 +49,7 @@ const Topbar: FunctionComponent = () => {
           </Button>
           <Button onClick={() => {setOpen(false)
           
-            dispatch(logoutUser(token))
+            /* dispatch(logoutUser(token)) */
             setTimeout(() => {
               navigate("/login")
             }, 0);

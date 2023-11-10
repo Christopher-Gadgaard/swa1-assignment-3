@@ -1,7 +1,6 @@
 //userThunks.ts
 import { Dispatch } from 'redux';
-import { loginRequest, loginSuccess, loginFailure, setUserToken, logout, createUserRequest, createUserSuccess, createUserFailure, updateProfileRequest, updateProfileSuccess, updateProfileFailure, getUserRequest, getUserSuccess, getUserFailure } from '../actions/userActions';
-
+import { loginRequest, loginSuccess, loginFailure, setUserToken, logout, createUserRequest, createUserSuccess, createUserFailure, updateProfileRequest, updateProfileSuccess, updateProfileFailure, getUserRequest, getUserSuccess, getUserFailure } from '../slices/userSlice';
 
 export const loginUser = (username: string, password: string) => {
     return async (dispatch: Dispatch) => {
@@ -20,7 +19,7 @@ export const loginUser = (username: string, password: string) => {
 
             if (response.ok) {
                 dispatch(loginSuccess(data));
-                dispatch(setUserToken(data.token, data.userId));
+                dispatch(setUserToken({ token: data.token, userId: data.userId }));
             } else {
                 dispatch(loginFailure(data.error || "Unknown error during login."));
             }
@@ -66,7 +65,7 @@ export const createUser = (username: string, password: string) => {
             if (response.ok) {
                 const data = await response.json();
                 dispatch(createUserSuccess(data));
-                dispatch(setUserToken(data.token, data.userId));
+                dispatch(setUserToken({ token: data.token, userId: data.userId }));
             } else {
                 dispatch(createUserFailure("Unknown error during user creation."));
             }
