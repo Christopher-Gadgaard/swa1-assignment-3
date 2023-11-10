@@ -5,7 +5,7 @@ const BOARD_WIDTH = 8;
 const BOARD_HEIGHT = 8;
 
 // Define a type for the tile types that corresponds to the keys in tileIcons
-export type TileType = 'type-1' | 'type-2' | 'type-3' | 'type-4'| 'empty';
+export type TileType = 'type-1' | 'type-2' | 'type-3' | 'type-4'| 'type-5' | 'type-6' | 'empty';
 
 // Define the shape of a single tile
 export interface Tile {
@@ -48,7 +48,7 @@ export const createInitialBoard = (): Tile[][] => {
 
 // Utility function to create a random tile
 export const createRandomTile = (): Tile => {
-  const tileTypes: TileType[] = ['type-1', 'type-2', 'type-3', 'type-4']; // Update with actual tile types
+  const tileTypes: TileType[] = ['type-1', 'type-2', 'type-3', 'type-4', 'type-5', 'type-6']; // Update with actual tile types
   const randomIndex = Math.floor(Math.random() * tileTypes.length);
   return { type: tileTypes[randomIndex] };
 };
@@ -71,34 +71,39 @@ const findHorizontalMatches = (board: Tile[][]): Array<{ x: number, y: number }>
   let matches: Array<{ x: number, y: number }> = [];
 
   for (let x = 0; x < board.length; x++) {
-    for (let y = 0; y < board[x].length - 2; y++) {
-      if (board[x][y].type === board[x][y + 1].type && board[x][y].type === board[x][y + 2].type) {
-        matches.push({ x, y });
-        matches.push({ x, y: y + 1 });
-        matches.push({ x, y: y + 2 });
-        
-        // Skip the next two tiles in the row since we've already found a match
-        y += 2;
+    let y = 0;
+    while (y < board[x].length - 2) {
+      if (board[x][y].type !== 'empty' && board[x][y].type === board[x][y + 1].type && board[x][y].type === board[x][y + 2].type) {
+        let matchStart = y;
+        while (y < board[x].length && board[x][matchStart].type === board[x][y].type) {
+          matches.push({ x, y });
+          y++;
+        }
+      } else {
+        y++;
       }
     }
   }
 
   return matches;
 };
+
 
 // Function to find all vertical matches on the board
 const findVerticalMatches = (board: Tile[][]): Array<{ x: number, y: number }> => {
   let matches: Array<{ x: number, y: number }> = [];
 
   for (let y = 0; y < board[0].length; y++) {
-    for (let x = 0; x < board.length - 2; x++) {
-      if (board[x][y].type === board[x + 1][y].type && board[x][y].type === board[x + 2][y].type) {
-        matches.push({ x, y });
-        matches.push({ x: x + 1, y });
-        matches.push({ x: x + 2, y });
-
-        // Skip the next two tiles in the column since we've already found a match
-        x += 2;
+    let x = 0;
+    while (x < board.length - 2) {
+      if (board[x][y].type !== 'empty' && board[x][y].type === board[x + 1][y].type && board[x][y].type === board[x + 2][y].type) {
+        let matchStart = x;
+        while (x < board.length && board[matchStart][y].type === board[x][y].type) {
+          matches.push({ x, y });
+          x++;
+        }
+      } else {
+        x++;
       }
     }
   }
@@ -106,28 +111,75 @@ const findVerticalMatches = (board: Tile[][]): Array<{ x: number, y: number }> =
   return matches;
 };
 
+// Function to expand matches to adjacent tiles of the same type
+const expandMatches = (board: Tile[][], matches: Array<{ x: number, y: number }>): Array<{ x: number, y: number }> => {
+  let expandedMatches = new Set(matches.map(match => JSON.stringify(match))); // Use a set to avoid duplicates
+
+  const checkAndAddMatch = (x: number, y: number, type: TileType) => {
+    if (x >= 0 && x < BOARD_HEIGHT && y >= 0 && y < BOARD_WIDTH && board[x][y].type === type) {
+      const matchString = JSON.stringify({ x, y });
+      if (!expandedMatches.has(matchString)) {
+        expandedMatches.add(matchString);
+        expandFromTile(x, y, type);
+      }
+    }
+  };
+
+  const expandFromTile = (x: number, y: number, type: TileType) => {
+    // Check and add all adjacent tiles of the same type
+    checkAndAddMatch(x - 1, y, type); // Up
+    checkAndAddMatch(x + 1, y, type); // Down
+    checkAndAddMatch(x, y - 1, type); // Left
+    checkAndAddMatch(x, y + 1, type); // Right
+  };
+
+  // Start expansion from the initial matches
+  matches.forEach(match => {
+    expandFromTile(match.x, match.y, board[match.x][match.y].type);
+  });
+
+  return Array.from(expandedMatches).map(match => JSON.parse(match));
+};
+
 // Function to find all matches on the board
-export const findMatches = (board: Tile[][]): Array<{ x: number, y: number }> => {
+export const findMatches = (board: Tile[][]): { matches: Array<{ x: number, y: number }>, score: number } => {
   let matches = [
     ...findHorizontalMatches(board),
     ...findVerticalMatches(board) // Combine horizontal and vertical matches
   ];
 
-  // Remove duplicates from the matches array, as a tile could be part of both a horizontal and a vertical match
+  matches = expandMatches(board, matches); // Expand matches to include all connected tiles of the same type
+
+  // Remove duplicates from the matches array
   const uniqueMatches = Array.from(new Set(matches.map(match => JSON.stringify(match)))).map(str => JSON.parse(str));
-  return uniqueMatches;
+ // Calculate score: for simplicity, 10 points per match
+ const score = uniqueMatches.length * 10;
+
+ return { matches: uniqueMatches, score };
 };
 
 // Function to process the board after matches have been found
 export const dropDownTiles = (board: Tile[][], matches: Array<{ x: number, y: number }>): Tile[][] => {
-  let newBoard = board.map(row => [...row]);
-  const emptyType: TileType = 'empty'; // Define your empty tile type here
-  
-  newBoard = removeMatches(newBoard, matches, emptyType);
+  let newBoard = removeMatches(board, matches, 'empty');
   newBoard = collapseBoard(newBoard);
   newBoard = refillBoard(newBoard);
-  
   return newBoard;
+};
+
+// Recursive function to process matches until no more are found
+export const processMatches = (board: Tile[][]): { board: Tile[][], score: number } => {
+  let matchResult = findMatches(board);
+  let totalScore = 0;
+
+  if (matchResult.matches.length > 0) {
+    board = dropDownTiles(board, matchResult.matches);
+    totalScore += matchResult.score;
+    let nextResult = processMatches(board);
+    board = nextResult.board;
+    totalScore += nextResult.score;
+  }
+
+  return { board, score: totalScore };
 };
 
 
@@ -150,8 +202,8 @@ export const isLegalMove = (board: Tile[][], firstTile: { x: number, y: number }
   let simulatedBoard = simulateSwap(board, firstTile, secondTile);
 
   // Check for a match after the swap
-  let matches = findMatches(simulatedBoard);
-  return matches.length > 0;
+  let matchResult = findMatches(simulatedBoard);
+  return matchResult.matches.length > 0;
 };
 
 // Marks the matched tiles as empty
