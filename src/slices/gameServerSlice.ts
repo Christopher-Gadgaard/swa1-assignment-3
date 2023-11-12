@@ -3,7 +3,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 // Define the shape of the game's state
-interface GameServer {
+export interface GameServer {
   id: number;
   user: number;
   score: number;
