@@ -13,16 +13,17 @@ const Game: React.FC = () => {
 
    // State to manage whether the game has started
    const [gameStarted, setGameStarted] = useState(false);
-   const { token } = useSelector((state: RootState) => state.user);
+   const { token, userId } = useSelector((state: RootState) => state.user);
    const dispatch = useDispatch<AppDispatch>();
-   const handleStartGame = () => {
-    if (token) {
-      dispatch(startNewGame(token));
-       setGameStarted(true);
-    } else {
-      alert("You must be logged in to start a game!");
-    } 
-  };
+   
+    const handleStartGame = () => {
+      if (token && userId !== null) {
+        dispatch(startNewGame(token, userId));
+        setGameStarted(true);
+      } else {
+        alert("You must be logged in to start a game!");
+      }
+    };
 
    return (
     <div>

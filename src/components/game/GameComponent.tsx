@@ -1,9 +1,9 @@
 // GameComponent.tsx
 
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectTile, swapTiles } from "../../slices/gameSlice"; // Update to use actions from the slice
-import { RootState } from "../../store"; // Update the import path according to your file structure
+import { AppDispatch, RootState } from "../../store"; // Update the import path according to your file structure
 import "./GameComponent.css"; // Make sure to import your CSS
 
 // Import SVG icons
@@ -13,6 +13,7 @@ import IconType3 from "../../images/galaxy-svgrepo-com.svg";
 import IconType4 from "../../images/laser-gun-svgrepo-com.svg";
 import IconType5 from "../../images/millennium-falcon-svgrepo-com.svg";
 import IconType6 from "../../images/saturn-svgrepo-com.svg";
+import { updateGame } from "../../thunks/gameServerThunks";
 
 // A simple mapping from tile types to their corresponding SVGs
 const tileIcons = {
@@ -29,11 +30,15 @@ interface GameComponentProps {
 }
 
 const GameComponent: React.FC<GameComponentProps> = ({ onGameStart }) => {
-  const dispatch = useDispatch();
-  const { board, selectedTile } = useSelector(
+  const dispatch: AppDispatch = useDispatch();
+  const { board, selectedTile, score, id } = useSelector(
     (state: RootState) => state.gameLogic
-  ); 
-  const { score } = useSelector((state: RootState) => state.gameLogic);
+  );
+
+  const { userId, token } = useSelector(
+    (state: RootState) => state.user
+  );
+ 
   // Handle tile selection
   const handleTileClick = (x: number, y: number) => {
     if (selectedTile && selectedTile.x === x && selectedTile.y === y) {
@@ -47,6 +52,16 @@ const GameComponent: React.FC<GameComponentProps> = ({ onGameStart }) => {
       dispatch(selectTile({ x, y }));
     }
   };
+
+
+  useEffect(() => {
+    // Define the updateData object
+    const updateData = { score }; // Assuming you want to update the score
+    console.log("updateData", updateData, " id ", id, " token ", token);
+    if (id !== -1 && token) { // Check if the game ID is valid and token is not null
+      dispatch(updateGame(id, token, updateData));
+    }
+  }, [score, dispatch, id, token]);
 
   return (
     <div>

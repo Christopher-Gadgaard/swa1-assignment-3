@@ -1,6 +1,6 @@
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
-import { GameServer } from "../../slices/gameServerSlice";
+import { GameState } from "../../slices/gameSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../reducers/rootReducer";
 import { fetchGames } from "../../thunks/gameServerThunks";
@@ -11,7 +11,7 @@ export interface Props {
   games: any[];
 }
 const ScoreDataGrid: React.FC<Props> = ({ columns }) => {
-  const [rowData, setRowData] = useState<Array<GameServer>>();
+  const [rowData, setRowData] = useState<Array<GameState>>();
   const games = useSelector((state: RootState) => state.gameServer.games);
   const { token } = useSelector((state: RootState) => state.user);
   const dispatch: AppDispatch = useDispatch();

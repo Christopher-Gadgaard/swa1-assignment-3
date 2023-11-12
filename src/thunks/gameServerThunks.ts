@@ -14,6 +14,7 @@ import {
   updateGameSuccess,
   updateGameFailure
 } from '../slices/gameServerSlice';
+import { setGameDetails } from '../slices/gameSlice';
 
 
 const serverUrl = 'http://localhost:9090';
@@ -40,10 +41,8 @@ export const fetchGames = (token: string) => {
   };
 };
 
-export const startNewGame = (token: string) => {
+export const startNewGame = (token: string, userId: number) => {
   return async (dispatch: Dispatch) => {
-
-    console.log('Starting new game');
     dispatch(postGameRequest());
     try {
 
@@ -57,6 +56,9 @@ export const startNewGame = (token: string) => {
 
       const data = await response.json();
       dispatch(postGameSuccess(data));
+
+      // Dispatch action to update game ID and user ID in the game state
+      dispatch(setGameDetails({ id: data.id, user: userId }));
     
     } catch (error) {
       dispatch(postGameFailure("Network error. Please try again."));

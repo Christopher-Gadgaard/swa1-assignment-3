@@ -3,7 +3,10 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { createInitialBoard, performSwap, isLegalMove, Tile, processMatches } from '../gameLogic/gameLogicUtils';
 
 
-interface GameState {
+export interface GameState {
+  id: number;
+  user: number;
+  completed: boolean;
   board: Tile[][];
   selectedTile: { x: number, y: number } | null;
   matches: Array<{ x: number, y: number }>;
@@ -11,6 +14,9 @@ interface GameState {
 }
 
 const initialState: GameState = {
+  id: -1,
+  user: -1,
+  completed: false,
   board: createInitialBoard(),
   selectedTile: null,
   matches: [],
@@ -32,15 +38,20 @@ export const gameSlice = createSlice({
         state.board = matchResult.board;
         state.score += matchResult.score; 
         state.selectedTile = null;
+        
       } else {
         state.selectedTile = null;
       }
+    },
+    setGameDetails: (state, action: PayloadAction<{ id: number; user: number }>) => {
+      state.id = action.payload.id;
+      state.user = action.payload.user;
     },
   },
 });
 
 // Export actions
-export const { selectTile, swapTiles } = gameSlice.actions;
+export const { selectTile, swapTiles, setGameDetails } = gameSlice.actions;
 
 // Export reducer
 export default gameSlice.reducer;
