@@ -47,11 +47,23 @@ export const gameSlice = createSlice({
       state.id = action.payload.id;
       state.user = action.payload.user;
     },
+    resetScore: (state) => {
+      state.score = 0;
+    },
+    resetGame: (state) => {
+      state.id = -1;
+      state.user = -1;
+      state.completed = false;
+      state.board = createInitialBoard();
+      state.selectedTile = null;
+      state.matches = [];
+      state.score = 0;
+    },
   },
 });
 
 // Export actions
-export const { selectTile, swapTiles, setGameDetails } = gameSlice.actions;
+export const { selectTile, swapTiles, setGameDetails, resetScore, resetGame } = gameSlice.actions;
 
 // Export reducer
 export default gameSlice.reducer;

@@ -57,7 +57,7 @@ const GameComponent: React.FC<GameComponentProps> = ({ onGameStart }) => {
   useEffect(() => {
     // Define the updateData object
     const updateData = { score }; // Assuming you want to update the score
-    console.log("updateData", updateData, " id ", id, " token ", token);
+    
     if (id !== -1 && token) { // Check if the game ID is valid and token is not null
       dispatch(updateGame(id, token, updateData));
     }

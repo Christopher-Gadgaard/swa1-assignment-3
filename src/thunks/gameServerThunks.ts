@@ -33,7 +33,6 @@ export const fetchGames = (token: string) => {
       }
 
       const data = await response.json();
-      console.log(data);
       dispatch(getGamesSuccess(data));
     } catch (error) {
       dispatch(getGamesFailure("Network error. Please try again."));
