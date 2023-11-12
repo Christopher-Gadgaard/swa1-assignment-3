@@ -13,7 +13,7 @@ import {
   updateGameRequest,
   updateGameSuccess,
   updateGameFailure
-} from '../actions/gameActions';
+} from '../slices/gameServerSlice';
 
 
 const serverUrl = 'http://localhost:9090';

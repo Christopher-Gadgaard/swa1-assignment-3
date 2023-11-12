@@ -50,10 +50,18 @@ const AccountComponent: React.FC = () => {
       setUserData({ ...myUserData, validationError: "Passwords do not match" });
       return;
     }
-    // Dispatch the password update action
-    //dispatch(updateUserProfile(token, userId, { password: myUserData.newPassword }));
+    if(token && userId !== null)
+    {
+       // Dispatch the password update action
+      dispatch(updateUserProfile(token, userId, { password: myUserData.newPassword }));
     // Reset the edit mode
     setEditPasswordMode(false);
+    }
+    else
+    {
+      console.log("Error: token or userId is null");
+    }
+   
   };
 
   // Function to handle form field changes
