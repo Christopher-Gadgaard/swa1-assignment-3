@@ -36,7 +36,6 @@ export const gameSlice = createSlice({
         state.selectedTile = null;
       }
     },
-    // You can add more reducers for other actions
   },
 });
 
