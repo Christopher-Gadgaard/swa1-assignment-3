@@ -79,7 +79,6 @@ export const fetchGameById = (token: string, gameId: number) => {
       }
 
       const game = await response.json();
-      console.log('Game Details:', game);
       dispatch(getGameByIdSuccess(game));
     } catch (error) {
       dispatch(getGameByIdFailure("Network error. Please try again."));

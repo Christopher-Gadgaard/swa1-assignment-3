@@ -8,7 +8,6 @@ import "./style.css";
 import gemQuestLogo from "../../images/GemQuest.png";
 const ScorebardPage: React.FC = () => {
   const currentUserId = useSelector((state: RootState) => state.user.userId);
-  console.log(currentUserId, " currentUserId");
   return (
     <div className="scoreboardPage">
       <Topbar />
