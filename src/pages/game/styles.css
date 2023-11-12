@@ -1,13 +1,49 @@
-.gameContainer{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
+.gameContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  background-color: white;
+  margin-top: 50px;
+  width: fit-content;
+  padding: 40px;
+  border-radius: 12px;
 }
 body,
 html,
 #root {
   height: 100%;
   margin: 0;
+}
+
+.startGameButton {
+  padding: 10px 20px; /* Add some padding for better touch */
+  font-size: 1.5em; /* Increase font size for visibility */
+  color: white; /* Set text color */
+  background-color: #007bff; /* Set a background color */
+  border: none; /* Remove default border */
+  border-radius: 5px; /* Add rounded corners */
+  cursor: pointer; /* Change cursor to indicate it's clickable */
+  outline: none; /* Remove outline */
+  transition: background-color 0.3s; /* Smooth transition for hover effect */
+}
+
+.startGameButton:hover {
+  background-color: #0056b3; /* Darker shade on hover */
+}
+
+.startGameButton:active {
+  background-color: #004080; /* Even darker shade when active/clicked */
+}
+.gamePage {
+  min-height: 100vh;
+  background: url("../../../public/images/SpaceBackground.png") no-repeat center
+    center fixed;
+  background-size: cover;
+  padding-top: 0; /* Reduced padding */
+  padding-bottom: 0; /* Reduced padding */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }

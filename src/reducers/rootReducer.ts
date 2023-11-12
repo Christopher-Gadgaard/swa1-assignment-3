@@ -1,19 +1,15 @@
-//index.ts
-import { combineReducers } from "redux";
-import userReducer from "./userReducer";
-import gameReducer from "./gameReducer";
-import selectedTileReducer from "./selectedTileReducer";
-import tileToSwapReducer from "./tileToSwapReducer";
+// rootReducer.ts
+import { combineReducers } from '@reduxjs/toolkit';
+import userSlice from '../slices/userSlice';
+import gameSlice from '../slices/gameSlice'; 
+import gameServerSlice from '../slices/gameServerSlice';
 
 const rootReducer = combineReducers({
-  user: userReducer,
-  game: gameReducer,
-  selectedTile: selectedTileReducer,
-  tileToSwap: tileToSwapReducer,
-  // Add other reducers as you create them
+  user: userSlice,
+  gameLogic: gameSlice, 
+  gameServer: gameServerSlice,
 });
 
-export default rootReducer;
-
-// Define the RootState type for later use in mapStateToProps or selectors
 export type RootState = ReturnType<typeof rootReducer>;
+
+export default rootReducer;

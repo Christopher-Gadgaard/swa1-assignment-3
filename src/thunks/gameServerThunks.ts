@@ -1,4 +1,4 @@
-// gameThunks.ts
+// gameServerThunks.ts
 import { Dispatch } from 'redux';
 import {
   getGamesRequest,
@@ -13,7 +13,8 @@ import {
   updateGameRequest,
   updateGameSuccess,
   updateGameFailure
-} from '../actions/gameActions';
+} from '../slices/gameServerSlice';
+import { setGameDetails } from '../slices/gameSlice';
 
 
 const serverUrl = 'http://localhost:9090';
@@ -32,7 +33,6 @@ export const fetchGames = (token: string) => {
       }
 
       const data = await response.json();
-      console.log(data);
       dispatch(getGamesSuccess(data));
     } catch (error) {
       dispatch(getGamesFailure("Network error. Please try again."));
@@ -40,13 +40,13 @@ export const fetchGames = (token: string) => {
   };
 };
 
-export const startNewGame = (token: string) => {
+export const startNewGame = (token: string, userId: number) => {
   return async (dispatch: Dispatch) => {
     dispatch(postGameRequest());
-
     try {
+
       const response = await fetch(`${serverUrl}/games?token=${token}`, {
-        method: 'POST'
+        method: 'POST'     
       });
 
       if (!response.ok) {
@@ -55,6 +55,10 @@ export const startNewGame = (token: string) => {
 
       const data = await response.json();
       dispatch(postGameSuccess(data));
+
+      // Dispatch action to update game ID and user ID in the game state
+      dispatch(setGameDetails({ id: data.id, user: userId }));
+    
     } catch (error) {
       dispatch(postGameFailure("Network error. Please try again."));
     }
