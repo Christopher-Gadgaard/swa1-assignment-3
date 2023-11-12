@@ -24,7 +24,11 @@ const tileIcons = {
   "type-6": IconType6,
 };
 
-const GameComponent: React.FC = () => {
+interface GameComponentProps {
+  onGameStart: () => void;
+}
+
+const GameComponent: React.FC<GameComponentProps> = ({ onGameStart }) => {
   const dispatch = useDispatch();
   const { board, selectedTile } = useSelector(
     (state: RootState) => state.gameLogic

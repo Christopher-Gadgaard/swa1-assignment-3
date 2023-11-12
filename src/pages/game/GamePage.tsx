@@ -5,16 +5,23 @@ import "./styles.css";
 
 import GameComponent from "../../components/game/GameComponent";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../store";
+import { startNewGame } from "../../thunks/gameServerThunks";
 
 const Game: React.FC = () => {
 
    // State to manage whether the game has started
    const [gameStarted, setGameStarted] = useState(false);
-   const dispatch = useDispatch();
-   const startGame = () => {
-    dispatch(startGame(token));
-    setGameStarted(true);
+   const { token } = useSelector((state: RootState) => state.user);
+   const dispatch = useDispatch<AppDispatch>();
+   const handleStartGame = () => {
+    if (token) {
+      dispatch(startNewGame(token));
+       setGameStarted(true);
+    } else {
+      alert("You must be logged in to start a game!");
+    } 
   };
 
    return (
@@ -23,10 +30,10 @@ const Game: React.FC = () => {
       <div className="gameContainer">
         {!gameStarted ? (
           // Display start button if game hasn't started
-          <button onClick={startGame} className="startGameButton">Start Game</button>
+          <button onClick={handleStartGame} className="startGameButton">Start Game</button>
         ) : (
           // Display game component if game has started
-          <GameComponent />
+          <GameComponent onGameStart={handleStartGame} />
         )}
       </div>
     </div>

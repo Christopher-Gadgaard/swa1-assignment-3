@@ -42,11 +42,13 @@ export const fetchGames = (token: string) => {
 
 export const startNewGame = (token: string) => {
   return async (dispatch: Dispatch) => {
-    dispatch(postGameRequest());
 
+    console.log('Starting new game');
+    dispatch(postGameRequest());
     try {
+
       const response = await fetch(`${serverUrl}/games?token=${token}`, {
-        method: 'POST'
+        method: 'POST'     
       });
 
       if (!response.ok) {
@@ -55,6 +57,7 @@ export const startNewGame = (token: string) => {
 
       const data = await response.json();
       dispatch(postGameSuccess(data));
+    
     } catch (error) {
       dispatch(postGameFailure("Network error. Please try again."));
     }
