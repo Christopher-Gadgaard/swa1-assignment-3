@@ -11,3 +11,23 @@ html,
   height: 100%;
   margin: 0;
 }
+
+.startGameButton {
+  padding: 10px 20px; /* Add some padding for better touch */
+  font-size: 1.5em; /* Increase font size for visibility */
+  color: white; /* Set text color */
+  background-color: #007bff; /* Set a background color */
+  border: none; /* Remove default border */
+  border-radius: 5px; /* Add rounded corners */
+  cursor: pointer; /* Change cursor to indicate it's clickable */
+  outline: none; /* Remove outline */
+  transition: background-color 0.3s; /* Smooth transition for hover effect */
+}
+
+.startGameButton:hover {
+  background-color: #0056b3; /* Darker shade on hover */
+}
+
+.startGameButton:active {
+  background-color: #004080; /* Even darker shade when active/clicked */
+}

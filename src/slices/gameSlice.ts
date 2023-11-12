@@ -1,7 +1,7 @@
 // gameSlice.ts
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { createInitialBoard, performSwap, isLegalMove, Tile, processMatches } from '../gameLogic/gameLogicUtils';
-
+import { startNewGame, updateGame } from '../thunks/gameServerThunks';
 
 interface GameState {
   board: Tile[][];
@@ -35,6 +35,17 @@ export const gameSlice = createSlice({
       } else {
         state.selectedTile = null;
       }
+    },
+    startGame: (state, action: PayloadAction<string>) => {
+      // Dispatch action to start a new game
+      startNewGame(action.payload);
+    },
+    updateScore: (state, action: PayloadAction<{ gameId: number, token: string, score: number }>) => {
+      const { gameId, token, score } = action.payload;
+      // Update the score in the state
+      state.score = score;
+      // Dispatch action to update the game score
+      updateGame(gameId, token, { score });
     },
   },
 });

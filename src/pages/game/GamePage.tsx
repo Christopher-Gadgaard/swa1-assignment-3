@@ -5,13 +5,15 @@ import "./styles.css";
 
 import GameComponent from "../../components/game/GameComponent";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 
 const Game: React.FC = () => {
 
    // State to manage whether the game has started
    const [gameStarted, setGameStarted] = useState(false);
-   
+   const dispatch = useDispatch();
    const startGame = () => {
+    dispatch(startGame(token));
     setGameStarted(true);
   };
 
