@@ -5,13 +5,21 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../reducers/rootReducer";
 import { Card } from "@mui/material";
 import "./style.css";
-
+import gemQuestLogo from "../../images/GemQuest.png";
 const ScorebardPage: React.FC = () => {
   const currentUserId = useSelector((state: RootState) => state.user.userId);
   console.log(currentUserId, " currentUserId");
   return (
     <div className="scoreboardPage">
-      <Topbar />{" "}
+      <Topbar />
+      <img
+        src={gemQuestLogo}
+        style={{
+          marginTop: "100px",
+          width: "200px",
+          height: "200px",
+        }}
+      />
       <Card
         className="scoreboard-container"
         sx={{
