@@ -1,14 +1,14 @@
-.gameContainer{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    background-color: white;
-margin-top: 50px;    
-width: fit-content;
-padding: 30px;
-border-radius: 12px;
+.gameContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  background-color: white;
+  margin-top: 50px;
+  width: fit-content;
+  padding: 40px;
+  border-radius: 12px;
 }
 body,
 html,
@@ -36,13 +36,14 @@ html,
 .startGameButton:active {
   background-color: #004080; /* Even darker shade when active/clicked */
 }
-.gamePage{
-      min-height: 100vh;
-    background: url('../../../public/images/SpaceBackground.png') no-repeat center center fixed;
-    background-size: cover;
-    padding-top: 0; /* Reduced padding */
-    padding-bottom: 0; /* Reduced padding */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.gamePage {
+  min-height: 100vh;
+  background: url("../../../public/images/SpaceBackground.png") no-repeat center
+    center fixed;
+  background-size: cover;
+  padding-top: 0; /* Reduced padding */
+  padding-bottom: 0; /* Reduced padding */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }

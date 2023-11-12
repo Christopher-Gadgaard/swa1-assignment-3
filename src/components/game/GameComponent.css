@@ -5,7 +5,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin: 20px;
+    margin: 10px;
     user-select: none;
   }
   
@@ -17,8 +17,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 50px; /* width of each tile */
-    height: 50px; /* height of each tile */
+    width: 65px; /* width of each tile */
+    height: 65px; /* height of each tile */
     border: 1px solid #ddd; /* border of the tiles */
     margin: 2px; /* spacing between tiles */
     cursor: pointer; /* cursor when hovering over a tile */

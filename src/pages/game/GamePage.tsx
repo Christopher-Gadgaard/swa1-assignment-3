@@ -39,7 +39,7 @@ const Game: React.FC = () => {
       <img
         src={gemQuestLogo}
         style={{
-          marginTop: "100px",
+          marginTop: "30px",
           width: "200px",
           height: "200px",
         }}
